@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<title>Windows 11 Web OS</title>
+
+<link rel="stylesheet" href="style.css">
+
+<style>
+
+/* Desktop */
+
+.desktop{
+    width:100vw;
+    height:100vh;
+
+    display:flex;
+    flex-direction:column;
+
+    padding:20px;
+
+    gap:20px;
+}
+
+.desktop-icon{
+
+    width:80px;
+
+    text-align:center;
+
+    color:white;
+
+    cursor:pointer;
+}
+
+.desktop-icon img{
+    width:50px;
+}
+
+/* Window */
+
+.window{
+
+    position:absolute;
+
+    width:800px;
+    height:500px;
+
+    top:80px;
+    left:200px;
+
+    background:rgba(30,30,30,0.85);
+
+    backdrop-filter:blur(20px);
+
+    border-radius:18px;
+
+    overflow:hidden;
+
+    display:none;
+
+    box-shadow:0 0 30px rgba(0,0,0,0.5);
+}
+
+.window-header{
+
+    height:45px;
+
+    background:rgba(255,255,255,0.05);
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    padding:0 15px;
+
+    color:white;
+}
+
+.window-header button{
+
+    border:none;
+
+    background:red;
+
+    color:white;
+
+    width:30px;
+    height:30px;
+
+    border-radius:8px;
+
+    cursor:pointer;
+}
+
+/* iframe */
+
+.window iframe{
+
+    width:100%;
+    height:calc(100% - 45px);
+
+    border:none;
+}
+
+.window-content{
+
+    width:100%;
+    height:calc(100% - 45px);
+
+    background:#1f1f1f;
+}
+
+/* TASKBAR */
+
+.taskbar{
+
+    position:fixed;
+
+    bottom:15px;
+    left:50%;
+
+    transform:translateX(-50%);
+
+    width:700px;
+    height:78px;
+
+    background:
+    rgba(20,20,20,0.55);
+
+    backdrop-filter:blur(25px);
+
+    border-radius:24px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:22px;
+
+    border:1px solid
+    rgba(255,255,255,0.08);
+
+    box-shadow:
+    0 10px 35px
+    rgba(0,0,0,0.35);
+
+    z-index:999;
+}
+
+.taskbar-app{
+
+    width:58px;
+    height:58px;
+
+    border-radius:18px;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    cursor:pointer;
+
+    transition:0.22s;
+}
+
+.taskbar-app:hover{
+
+    transform:
+    translateY(-10px)
+    scale(1.12);
+
+    background:
+    rgba(255,255,255,0.12);
+}
+
+.taskbar-app img{
+
+    width:33px;
+    height:33px;
+}
+
+.start-btn{
+
+    width:58px;
+    height:58px;
+
+    border:none;
+
+    border-radius:18px;
+
+    background:
+    rgba(255,255,255,0.08);
+
+    color:white;
+
+    font-size:28px;
+
+    cursor:pointer;
+
+    transition:0.22s;
+}
+
+.start-btn:hover{
+
+    transform:
+    translateY(-10px)
+    scale(1.1);
+
+    background:
+    rgba(255,255,255,0.14);
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- Desktop -->
+
+<div class="desktop">
+
+    <!-- Explorer -->
+
+    <div class="desktop-icon"
+    onclick="openExplorer()">
+
+        <img src="assets/icons/explorer.png">
+
+        <div>Explorer</div>
+
+    </div>
+
+    <!-- Browser -->
+
+    <div class="desktop-icon"
+    onclick="openBrowser()">
+
+        <img src="assets/icons/edge.png">
+
+        <div>Browser</div>
+
+    </div>
+
+    <!-- Settings -->
+
+<!-- Games -->
+
+<div class="desktop-icon"
+onclick="openGame()">
+
+    <img src="assets/icons/game.png">
+
+    <div>Games</div>
+
+</div>
+
+    <div class="desktop-icon"
+    onclick="openSettings()">
+
+        <img src="assets/icons/settings.png">
+
+        <div>Settings</div>
+
+    </div>
+
+</div>
+
+<!-- Explorer Window -->
+
+<div class="window"
+id="explorerWindow">
+
+    <div class="window-header">
+
+        <span>File Explorer</span>
+
+        <button onclick="closeExplorer()">
+            X
+        </button>
+
+    </div>
+
+    <iframe
+    src="apps/explorer.html">
+    </iframe>
+
+</div>
+
+<!-- Browser Window -->
+
+<div class="window"
+id="browserWindow">
+
+    <div class="window-header">
+
+        <span>Browser</span>
+
+        <button onclick="closeBrowser()">
+            X
+        </button>
+
+    </div>
+
+    <iframe
+    src="apps/browser.html">
+    </iframe>
+
+</div>
+
+<!-- Settings Window -->
+
+<div class="window"
+id="settingsWindow">
+
+    <div class="window-header">
+
+        <span>Settings</span>
+
+        <button onclick="closeSettings()">
+            X
+        </button>
+
+    </div>
+
+    <iframe
+    src="apps/settings.html">
+    </iframe>
+
+</div>
+
+<!-- Game Window -->
+
+<div class="window"
+id="gameWindow">
+
+    <div class="window-header">
+
+        <span>Games</span>
+
+        <button onclick="closeGame()">
+            X
+        </button>
+
+    </div>
+
+    <div class="window-content">
+
+        <iframe
+        src="https://hextris.github.io/hextris/"
+        width="100%"
+        height="100%"
+        frameborder="0">
+        </iframe>
+
+    </div>
+
+</div>
+
+<!-- Start Menu -->
+
+<div class="start-menu"
+id="startMenu">
+
+    <h2>Pinned</h2>
+
+    <div class="app-grid">
+
+<div class="app-item"
+onclick="openGame()">
+
+    <img src="assets/icons/game.png">
+
+    <span>Games</span>
+
+</div>
+
+        
+
+        <div class="app-item"
+        onclick="openExplorer()">
+
+            <img src="assets/icons/explorer.png">
+
+            <span>Explorer</span>
+
+        </div>
+
+       
+
+        <div class="app-item"
+        onclick="openBrowser()">
+
+            <img src="assets/icons/edge.png">
+
+            <span>Browser</span>
+
+        </div>
+
+       
+
+        <div class="app-item"
+        onclick="openSettings()">
+
+            <img src="assets/icons/settings.png">
+
+            <span>Settings</span>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Taskbar -->
+
+<div class="taskbar">
+
+    <!-- Start -->
+
+    <button class="start-btn"
+    onclick="toggleStartMenu()">
+
+        ⊞
+
+    </button>
+
+    <!-- Explorer -->
+
+    <div class="taskbar-app"
+    onclick="openExplorer()">
+
+        <img src=
+        "assets/icons/explorer.png">
+
+    </div>
+
+    <!-- Browser -->
+
+    <div class="taskbar-app"
+    onclick="openBrowser()">
+
+        <img src=
+        "assets/icons/edge.png">
+
+    </div>
+
+    <!-- Settings -->
+
+    <div class="taskbar-app"
+    onclick="openSettings()">
+
+        <img src=
+        "assets/icons/settings.png">
+
+    </div>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
